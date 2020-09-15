@@ -1,4 +1,9 @@
-var userName=Cookies.get("username");
+let tokenValue = Cookies.get("token");
+if (tokenValue == undefined) {
+    document.getElementById("colors").innerHTML = "ERROR";
+}
+else {
+    var userName=Cookies.get("username");
 document.getElementById("user-hello").innerHTML= "hello user " + userName;
 
 let ajax = new XMLHttpRequest();
@@ -14,9 +19,17 @@ ajax.onreadystatechange = function(){
             div.style.height ="300px";
             div.style.background = colors.data[i].color;
             document.getElementById("colors").append(div);
-            
         }
+    } else if (this.readyState != 4) {
+        document.getElementById("login-status").innerHTML = "LOADING";
+        document.getElementById("login-status").style.color = "yellow";
     }
+    else {
+        document.getElementById("login-status").innerHTML = "LOGIN ERROR";
+        document.getElementById("login-status").style.color = "red";
+    }
+
 }
 ajax.open("GET", "https://reqres.in/api/unknown", true);
-ajax.send();
+ajax.send();}
+
